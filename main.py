@@ -1,5 +1,13 @@
 import pandas as pd
 
+
+def check_values(row):
+    if 1 in row.values:
+        return 1
+    else:
+        return 0
+
+
 well_head = 'скважина'
 bottom_head = 'низ'
 top_head = 'верх'
@@ -27,7 +35,6 @@ for well in unique_wells:
     for index, row in df_well.iterrows():
         bottom = row[bottom_head]
         top = row[top_head]
-
         if bottom > top:
             a = bottom
             bottom = top
@@ -35,4 +42,9 @@ for well in unique_wells:
 
         df_md['перф' + str(index + 1)] = df_md['MD'].apply(lambda x: 1 if bottom <= x <= top else 0)
 
-    df_md.to_csv('скважина ' + well + '.txt', sep='\t', index=False)
+    df_md_2 = pd.DataFrame(index=range(len(md)), columns=['MD', 'Итог'])
+
+    df_md_2['Итог'] = df_md[columns[1:]].apply(check_values, axis=1)
+    df_md_2['MD'] = md
+
+    df_md_2.to_csv('скважина ' + well + '.txt', sep='\t', index=False)

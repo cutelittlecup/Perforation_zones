@@ -40,7 +40,7 @@ for well in unique_wells:
             bottom = top
             top = a
 
-        df_md['перф' + str(index + 1)] = df_md['MD'].apply(lambda x: 1 if bottom <= x <= top else 0)
+        df_md['перф' + str(index + 1)] = df_md['MD'].apply(lambda x: 1 if round(bottom) <= x == round(top) else 0)
 
     df_md_2 = pd.DataFrame(index=range(len(md)), columns=['MD', 'Итог'])
 
